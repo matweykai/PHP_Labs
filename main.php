@@ -5,7 +5,6 @@ require 'models.php';
 
 use Symfony\Component\Validator\Validation;
 
-date_default_timezone_set('Russia/Moscow');
 $validator = Validation::createValidator();
 
 $testUserArr = [

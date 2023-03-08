@@ -6,19 +6,21 @@ use \Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class User
 {
-    private string $creationDate;
+    private DateTime $creationDate;
 
     public function __construct(private int $id, private string $name, private string $email, private string $password)
     {   
-        $this->creationDate = date('d-m-y h:i:s A');
+        $this->creationDate = new DateTime('now', new DateTimeZone('Europe/Moscow'));;
     }
 
     public function toStr(): string
     {
-        return "$this->id $this->name $this->email $this->password $this->creationDate";
+        $strCreationDate = $this->creationDate->format('Y-m-d H:i:s');
+
+        return "$this->id $this->name $this->email $this->password $strCreationDate";
     }
     
-    public function getCreationDate(): string
+    public function getCreationDate(): DateTime
     {
         return $this->creationDate;
     }
