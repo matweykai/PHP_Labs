@@ -1,9 +1,12 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
-require 'models.php';
+require_once 'models.php';
+require_once 'utils.php';
 
 use Symfony\Component\Validator\Validation;
+
+echo "Validation demonstration";
 
 $validator = Validation::createValidator();
 
@@ -32,4 +35,31 @@ foreach ($testUserArr as $tempUser) {
     }
 }
 
-echo "Validation finished!";
+echo "Validation finished!<br><br>";
+
+sleep(2);
+
+echo "Comments task<br>";
+
+$testUserArr = array_merge(
+    $testUserArr,
+    [
+        new User(3, "New User", "New_user@mail.ru", "new_user"),
+        new User(5, "New User2", "New_user2@mail.ru", "new_user2"),
+    ]
+);
+
+$testCommentsArr = [];
+
+foreach ($testUserArr as $tempUser) {
+    $tempUserStrRepr= $tempUser->toStr();
+    $testCommentsArr = array_merge($testCommentsArr, [new Comment($tempUser, "Hello $tempUserStrRepr")]);
+}
+
+// Test function on the 5th User creation date
+$resultComments = getCommentsWithUsersAfterDate($testCommentsArr, $testUserArr[4]->getCreationDate());
+
+echo "<br>Result comments:<br>";
+foreach ($resultComments as $tempComment) {
+    echo $tempComment->getMessage() . '<br>';
+}
